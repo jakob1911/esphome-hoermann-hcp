@@ -512,6 +512,7 @@ void HoermannHcp::on_position_reg_(uint16_t value) {
     return;
 
   this->position_raw_ = position;
+  
   ESP_LOGI(TAG,
          "RAW POSITION: 0x%02X (%u)",
          position,
@@ -536,6 +537,7 @@ void HoermannHcp::on_state_reg_(uint16_t value) {
   this->prev_state_reg_ = value;
   if (previous == value)
     return;
+  
   ESP_LOGI(TAG,
            "RAW STATE: 0x%04X | high=0x%02X | low=0x%02X",
            value,
