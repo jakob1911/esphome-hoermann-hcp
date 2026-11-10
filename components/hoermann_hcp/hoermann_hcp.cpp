@@ -512,6 +512,11 @@ void HoermannHcp::on_position_reg_(uint16_t value) {
     return;
 
   this->position_raw_ = position;
+  ESP_LOGI(TAG,
+         "RAW POSITION: 0x%02X (%u)",
+         position,
+         position);
+  
   this->update_current_position_();
   // Until the door actually travels the way it was told to, its position says nothing about the target.
   if (!this->has_target_() || !this->target_started_)
@@ -531,7 +536,12 @@ void HoermannHcp::on_state_reg_(uint16_t value) {
   this->prev_state_reg_ = value;
   if (previous == value)
     return;
-
+  ESP_LOGI(TAG,
+           "RAW STATE: 0x%04X | high=0x%02X | low=0x%02X",
+           value,
+           static_cast<uint8_t>(value >> 8),
+           static_cast<uint8_t>(value & 0x00FF));
+  
   const uint8_t state = value >> 8;
   if (state == 0x00) {
     // Low byte 0x61 marks the door resting in the vent position, anything else a plain stop.
